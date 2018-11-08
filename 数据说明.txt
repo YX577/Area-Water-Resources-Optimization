@@ -1,0 +1,60 @@
+长度单位都是mm 面积单位需要统一
+ 
+4×4矩阵数据结构
+
+[Crop1Soil1 Crop1Soil2 Crop1Soil3...
+ Crop2Soil1 Crop2Soil2 Crop2Soil3
+ ...                                ]
+
+E                 : ET0总和
+GrowingCycle      : 生育期天数
+
+Species           : 作物种类数量
+
+Soiltype          : 土壤类型数量
+
+PRE                ：降雨序列 单位 （mm）
+
+Kc 		   ：作物系数 行表示天数 列表示作物
+
+Area   		   ：作物的种植面积 行代表作物类型 列代表土壤类型 单位为mm2
+
+Area_Wood  	   ：林地的种植面积 
+
+IrrMax 		   : 单次最大灌水量的约束 同上
+
+IrrMin		   : 单次最小灌水量约束 同上
+
+Emax_wood  	   ：林地生态需水上限
+
+Emin_wood     	   ：林地生态需水下限
+
+Emax_grass 	   ：草地生态需水上限 单位 （mm）
+
+Emin_grass 	   ：草地生态需水下限 单位（mm）
+
+Initial   	   ：初始种群
+
+Qmax      	   ：最大引水量 单位为mm2
+
+Qmin    	   ：最小引水量 单位为mm2
+
+RootZone   	   ：根深 随着土质变化
+	
+Soil      	   ：土壤数据 行 ：[田持 临界值 凋萎点 a b] 行 ：土壤类型 现在是四种
+
+ThetaBuffer_Inital :  缓冲区初始含水率 [Soiltype1 Soiltype2 Soiltype3 Soiltype4] (m3/m3)
+
+ThetaRoot_Initial  ： 根区初始含水率   [Soiltype1 Soiltype2 Soiltype3 Soiltype4]    (m3/m3)
+
+Tmax               :  灌水间隔的最大值 生育期天数除以灌水次数 
+
+Tmin               ： 灌水间隔的最小值 1
+
+WaterTable_Initial : 初始潜水面
+
+
+Schedule   ：3维矩阵   2×灌水次数×（作物种类×土壤类型 ： Crop1Soil1 Crop1Soil2 Crop1Soil3 Crop1Soil Crop2Soil ...）
+
+[灌水间隔1 灌水间隔2 灌水间隔3 灌水间隔4 
+ 灌水量1   灌水量2   灌水量3   灌水量4   ]
