@@ -1,4 +1,4 @@
-function f = non_domination_sort_mod(x, M, V)
+function f = non_domination_sort_mod(x, M, Vï¼Œ Constraint)
 
 %% function f = non_domination_sort_mod(x, M, V)
 % This function sort the current popultion based on non-domination. All the
@@ -46,32 +46,32 @@ individual = [];
 % The initialized population is sorted based on non-domination. The fast
 % sort algorithm [1] is described as below for each
 
-% • for each individual p in main population P do the following
-%   – Initialize Sp = []. This set would contain all the individuals that is
+% ï¿½ for each individual p in main population P do the following
+%   ï¿½ Initialize Sp = []. This set would contain all the individuals that is
 %     being dominated by p.
-%   – Initialize np = 0. This would be the number of individuals that domi-
+%   ï¿½ Initialize np = 0. This would be the number of individuals that domi-
 %     nate p.
-%   – for each individual q in P
+%   ï¿½ for each individual q in P
 %       * if p dominated q then
-%           · add q to the set Sp i.e. Sp = Sp ? {q}
+%           ï¿½ add q to the set Sp i.e. Sp = Sp ? {q}
 %       * else if q dominates p then
-%           · increment the domination counter for p i.e. np = np + 1
-%   – if np = 0 i.e. no individuals dominate p then p belongs to the first
+%           ï¿½ increment the domination counter for p i.e. np = np + 1
+%   ï¿½ if np = 0 i.e. no individuals dominate p then p belongs to the first
 %     front; Set rank of individual p to one i.e prank = 1. Update the first
 %     front set by adding p to front one i.e F1 = F1 ? {p}
-% • This is carried out for all the individuals in main population P.
-% • Initialize the front counter to one. i = 1
-% • following is carried out while the ith front is nonempty i.e. Fi != []
-%   – Q = []. The set for storing the individuals for (i + 1)th front.
-%   – for each individual p in front Fi
+% ï¿½ This is carried out for all the individuals in main population P.
+% ï¿½ Initialize the front counter to one. i = 1
+% ï¿½ following is carried out while the ith front is nonempty i.e. Fi != []
+%   ï¿½ Q = []. The set for storing the individuals for (i + 1)th front.
+%   ï¿½ for each individual p in front Fi
 %       * for each individual q in Sp (Sp is the set of individuals
 %         dominated by p)
-%           · nq = nq?1, decrement the domination count for individual q.
-%           · if nq = 0 then none of the individuals in the subsequent
+%           ï¿½ nq = nq?1, decrement the domination count for individual q.
+%           ï¿½ if nq = 0 then none of the individuals in the subsequent
 %             fronts would dominate q. Hence set qrank = i + 1. Update
 %             the set Q with individual q i.e. Q = Q ? q.
-%   – Increment the front counter by one.
-%   – Now the set Q is the next front and hence Fi = Q.
+%   ï¿½ Increment the front counter by one.
+%   ï¿½ Now the set Q is the next front and hence Fi = Q.
 %
 % This algorithm is better than the original NSGA ([2]) since it utilize
 % the informatoion about the set that an individual dominate (Sp) and
@@ -135,17 +135,17 @@ current_index = 0;
 
 %% Crowding distance
 %The crowing distance is calculated as below
-% • For each front Fi, n is the number of individuals.
-%   – initialize the distance to be zero for all the individuals i.e. Fi(dj ) = 0,
+% ï¿½ For each front Fi, n is the number of individuals.
+%   ï¿½ initialize the distance to be zero for all the individuals i.e. Fi(dj ) = 0,
 %     where j corresponds to the jth individual in front Fi.
-%   – for each objective function m
+%   ï¿½ for each objective function m
 %       * Sort the individuals in front Fi based on objective m i.e. I =
 %         sort(Fi,m).
 %       * Assign infinite distance to boundary values for each individual
 %         in Fi i.e. I(d1) = ? and I(dn) = ?
 %       * for k = 2 to (n ? 1)
-%           · I(dk) = I(dk) + (I(k + 1).m ? I(k ? 1).m)/fmax(m) - fmin(m)
-%           · I(k).m is the value of the mth objective function of the kth
+%           ï¿½ I(dk) = I(dk) + (I(k + 1).m ? I(k ? 1).m)/fmax(m) - fmin(m)
+%           ï¿½ I(k).m is the value of the mth objective function of the kth
 %             individual in I
 
 % Find the crowding distance for each individual in each front
@@ -192,6 +192,10 @@ for front = 1 : (length(F) - 1)
     y(:,M + V + 2) = distance;
     y = y(:,1 : M + V + 2);
     z(previous_index:current_index,:) = y;
+
+
+
+
 end
 f = z();
 
