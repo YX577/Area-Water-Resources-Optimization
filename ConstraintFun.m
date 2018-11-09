@@ -1,0 +1,3 @@
+function Voilation = Constriants(Schedule)
+
+
