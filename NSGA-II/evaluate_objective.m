@@ -1,4 +1,4 @@
-function f = evaluate_objective(x, M, V)
+function f = evaluate_objective(x, M, V, Constraints)
 
 %% function f = evaluate_objective(x, M, V)
 % Function to evaluate the objective functions for the given input vector
@@ -32,12 +32,19 @@ function f = evaluate_objective(x, M, V)
 %% Kursawe proposed by Frank Kursawe.
 % Take a look at the following reference
 % A variant of evolution strategies for vector optimization.
-% In H. P. Schwefel and R. Männer, editors, Parallel Problem Solving from
+% In H. P. Schwefel and R. Mï¿½nner, editors, Parallel Problem Solving from
 % Nature. 1st Workshop, PPSN I, volume 496 of Lecture Notes in Computer 
 % Science, pages 193-197, Berlin, Germany, oct 1991. Springer-Verlag. 
 %
 % Number of objective is two, while it can have arbirtarly many decision
 % variables within the range -5 and 5. Common number of variables is 3.
-[WUE,Yield] = Fitness_Area(x);
-f(1) = WUE;
-f(2) = Yield;
+Voilation = Constraints.Fun(x);
+
+if (Voilation)
+    f(1) = 0;
+    f(2) = 0;
+    f(3) = Voilation;
+else
+    [f(1),f(2)] = Fitness_Area(x);
+    f(3) = false.;
+end

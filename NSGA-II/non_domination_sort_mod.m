@@ -1,4 +1,4 @@
-function f = non_domination_sort_mod(x, M, V， Constraint)
+function f = non_domination_sort_mod(x, M, V)
 
 %% function f = non_domination_sort_mod(x, M, V)
 % This function sort the current popultion based on non-domination. All the
@@ -83,27 +83,77 @@ for i = 1 : N
     individual(i).n = 0;
     % Individuals which this individual dominate
     individual(i).p = [];
+
+    Voilaition_i = x(i, end);
+
     for j = 1 : N
         dom_less = 0;
         dom_equal = 0;
         dom_more = 0;
-        for k = 1 : M
-            if (x(i,V + k) < x(j,V + k))
-                dom_less = dom_less + 1;
-            elseif (x(i,V + k) == x(j,V + k))
-                dom_equal = dom_equal + 1;
+        
+        Voilation_j = x(j, end);
+
+        if(Voilation_i)
+        %This condition if the ith unit voilates the constraints.
+
+            if(Volation_j)
+            % If the jth unit also voilates the constraints,
+            % The unit which voilation is small dominates that is large.
+
+                if(Voilation_i > Voilation_j)
+                % This condition means that the voilation of the ith unit is more serous,
+                % that the ith unit should be dominated by the jth ubnit.
+
+                    individual(i).n = individual.n + 1; 
+
+                elseif (Voilation_i < Voilation_j)
+
+                    individual.p = [individual.p j];
+
+                end
+
             else
-                dom_more = dom_more + 1;
+            % If the jth unit does not voilate the condtraints,
+            % The jth unit dominates the ith unit.
+
+                inidividual(i).n = inidividual(i).n + 1;
+            
+            end
+        else
+            if Voilation_j
+            % This branch of the if else srtructure is respective to the condition 
+            % which the ith unit does not voilate the constraints while the jth does.
+            % In this condition :
+                
+                Inidividual(i).p = [individual(i).p j];
+
+            else
+            % Both the ith unit and the jth unit do not voilate the constraints,
+            % the original no domain sort method is needed.
+                for k = 1 : M
+                    if (x(i,V + k) < x(j,V + k))
+                        dom_less = dom_less + 1;
+                    elseif (x(i,V + k) == x(j,V + k))
+                        dom_equal = dom_equal + 1;
+                    else
+                        dom_more = dom_more + 1;
+                    end
+                end
+            
+                if dom_less == 0 && dom_equal ~= M
+                    individual(i).n = individual(i).n + 1;
+                elseif dom_more == 0 && dom_equal ~= M
+                    individual(i).p = [individual(i).p j];
+                end
+
             end
         end
-        if dom_less == 0 && dom_equal ~= M
-            individual(i).n = individual(i).n + 1;
-        elseif dom_more == 0 && dom_equal ~= M
-            individual(i).p = [individual(i).p j];
-        end
-    end   
+    end 
+
     if individual(i).n == 0
-        x(i,M + V + 1) = 1;
+        % The rank of a unit is marked.
+        x(i,M + V + 2) = 1;
+
         F(front).f = [F(front).f i];
     end
 end
@@ -127,7 +177,7 @@ while ~isempty(F(front).f)
    F(front).f = Q;
 end
 
-[temp,index_of_fronts] = sort(x(:,M + V + 1));
+[temp,index_of_fronts] = sort(x(:,M + V + 2));
 for i = 1 : length(index_of_fronts)
     sorted_based_on_front(i,:) = x(index_of_fronts(i),:);
 end
@@ -170,16 +220,16 @@ for front = 1 : (length(F) - 1)
         f_max = ...
             sorted_based_on_objective(length(index_of_objectives), V + i);
         f_min = sorted_based_on_objective(1, V + i);
-        y(index_of_objectives(length(index_of_objectives)),M + V + 1 + i)...
+        y(index_of_objectives(length(index_of_objectives)),M + V + 2 + i)...
             = Inf;
-        y(index_of_objectives(1),M + V + 1 + i) = Inf;
+        y(index_of_objectives(1),M + V + 2 + i) = Inf;
          for j = 2 : length(index_of_objectives) - 1
             next_obj  = sorted_based_on_objective(j + 1,V + i);
             previous_obj  = sorted_based_on_objective(j - 1,V + i);
             if (f_max - f_min == 0)
-                y(index_of_objectives(j),M + V + 1 + i) = Inf;
+                y(index_of_objectives(j),M + V + 2 + i) = Inf;
             else
-                y(index_of_objectives(j),M + V + 1 + i) = ...
+                y(index_of_objectives(j),M + V + 2 + i) = ...
                      (next_obj - previous_obj)/(f_max - f_min);
             end
          end
@@ -187,14 +237,11 @@ for front = 1 : (length(F) - 1)
     distance = [];
     distance(:,1) = zeros(length(F(front).f),1);
     for i = 1 : M
-        distance(:,1) = distance(:,1) + y(:,M + V + 1 + i);
+        distance(:,1) = distance(:,1) + y(:,M + V + 2 + i);
     end
     y(:,M + V + 2) = distance;
     y = y(:,1 : M + V + 2);
     z(previous_index:current_index,:) = y;
-
-
-
 
 end
 f = z();

@@ -1,6 +1,6 @@
-function f = initialize_variables(N, M, V, min_range, max_range)
+function f = initialize_variables(N, M, V, Constraints)
 
-%% function f = initialize_variables(N, M, V, min_tange, max_range) 
+%% function f = initialize_variables(N, M, V, min_range, max_range) 
 % This function initializes the chromosomes. Each chromosome has the
 % following at this stage
 %       * set of decision variables
@@ -39,15 +39,22 @@ function f = initialize_variables(N, M, V, min_range, max_range)
 %  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 %  POSSIBILITY OF SUCH DAMAGE.
 
-min = min_range;
-max = max_range;
+min_vector = Constriants.min_range;
+max_vector = Constraints.max_range;
 
 % K is the total number of array elements. For ease of computation decision
 % variables and objective functions are concatenated to form a single
 % array. For crossover and mutation only the decision variables are used
-% while for selection, only the objective variable are utilized.
+% while for selection, only the objective variable are utilized
 
-K = M + V;
+K = M + V + 1;
+
+%To use the methed for the constraint NSGA - 2, 
+% one more column is needed to store a boolean variable to indicate that whether
+% the decision variables are constraint voilaeted or not.s
+
+
+f = zeros(N, K);
 
 %% Initialize each chromosome
 % For each chromosome perform the following (N is the population size)
@@ -57,7 +64,12 @@ for i = 1 : N
     % number is picked between the minimum and maximum possible values for
     % the each decision variable.
     for j = 1 : V
-        f(i,j) = min(j) + (max(j) - min(j))*rand(1);
+        f(i,j) = (min_vector(j) - 1) + ...
+        unidrand(max_vector(j) - min_vector(j) + 1);
+
+        % Here we use the unidrand to generate integer random numbers
+        % to associate with our irrigation schedule optimization problem.
+
     end
     % For ease of computation and handling data the chromosome also has the
     % vlaue of the objective function concatenated at the end. The elements
@@ -67,5 +79,6 @@ for i = 1 : N
     % with information about the number of objective functions which are
     % processed and returns the value for the objective functions. These
     % values are now stored at the end of the chromosome itself.
-    f(i,V + 1: K) = evaluate_objective(f(i,:), M, V);
+
+    f(i,V + 1: K) = evaluate_objective(f(i,:), M, V, Cosntraints);
 end
