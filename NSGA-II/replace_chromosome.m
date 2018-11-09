@@ -35,7 +35,7 @@ function f  = replace_chromosome(intermediate_chromosome, M, V,pop)
 [N, m] = size(intermediate_chromosome);
 
 % Get the index for the population sort based on the rank
-[temp,index] = sort(intermediate_chromosome(:,M + V + 1));
+[temp,index] = sort(intermediate_chromosome(:,M + V + 2));
 
 clear temp m
 
@@ -53,7 +53,7 @@ previous_index = 0;
 for i = 1 : max_rank
     % Get the index for current rank i.e the last the last element in the
     % sorted_chromosome with rank i. 
-    current_index = max(find(sorted_chromosome(:,M + V + 1) == i));
+    current_index = max(find(sorted_chromosome(:,M + V + 2) == i));
     % Check to see if the population is filled if all the individuals with
     % rank i is added to the population. 
     if current_index > pop
@@ -66,7 +66,7 @@ for i = 1 : max_rank
         % Sort the individuals with rank i in the descending order based on
         % the crowding distance.
         [temp_sort,temp_sort_index] = ...
-            sort(temp_pop(:, M + V + 2),'descend');
+            sort(temp_pop(:, M + V + 3),'descend');
         % Start filling individuals into the population in descending order
         % until the population is filled.
         for j = 1 : remaining

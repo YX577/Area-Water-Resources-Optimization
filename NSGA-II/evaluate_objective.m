@@ -1,4 +1,4 @@
-function f = evaluate_objective(x, M, V, Constraints)
+function f = evaluate_objective(x, M, V, Data)
 
 %% function f = evaluate_objective(x, M, V)
 % Function to evaluate the objective functions for the given input vector
@@ -38,13 +38,5 @@ function f = evaluate_objective(x, M, V, Constraints)
 %
 % Number of objective is two, while it can have arbirtarly many decision
 % variables within the range -5 and 5. Common number of variables is 3.
-Voilation = Constraints.Fun(x);
 
-if (Voilation)
-    f(1) = 0;
-    f(2) = 0;
-    f(3) = Voilation;
-else
-    [f(1),f(2)] = Fitness_Area(x);
-    f(3) = false.;
-end
+f = Fitness_Area(Data, x);
