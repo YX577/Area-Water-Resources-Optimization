@@ -1,39 +1,39 @@
 load Data
 
 % District = [
-% {'AnYang'}; %: °²Ñô¹àÇø
+% {'AnYang'}; %: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 % 
-% {'BanQiao'}; %: °åÇÅ¹àÇø
+% {'BanQiao'}; %: ï¿½ï¿½ï¿½Å¹ï¿½ï¿½ï¿½
 % 
-% {'DaMan'}; %: ´óÂú¹àÇø
+% {'DaMan'}; %: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 % 
-% {'HongYaZi'}; %: ºìÑÂ×Ó¹àÇø
+% {'HongYaZi'}; %: ï¿½ï¿½ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½
 % 
-% {'HuaZhaiZi'}; %: »¨Õ¯×Ó¹àÇø
+% {'HuaZhaiZi'}; %: ï¿½ï¿½Õ¯ï¿½Ó¹ï¿½ï¿½ï¿½
 % 
-% {'LiYuanHe'}; %: ÀæÔ°ºÓ¹àÇø
+% {'LiYuanHe'}; %: ï¿½ï¿½Ô°ï¿½Ó¹ï¿½ï¿½ï¿½
 % 
-% {'LiaoQuan'}; %: Þ¤Èª¹àÇø
+% {'LiaoQuan'}; %: Þ¤Èªï¿½ï¿½ï¿½ï¿½
 % 
-% {'LiuBa'}; %: Áù°Ó¹àÇø
+% {'LiuBa'}; %: ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½
 % 
-% {'LuoCheng'}; %: ÂÞ³Ç¹àÇø
+% {'LuoCheng'}; %: ï¿½Þ³Ç¹ï¿½ï¿½ï¿½
 % 
-% {'PingChuan'}; %: Æ½´¨¹àÇø
+% {'PingChuan'}; %: Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 % 
-% {'ShaHe'}; %: É³ºÓ¹àÇø
+% {'ShaHe'}; %: É³ï¿½Ó¹ï¿½ï¿½ï¿½
 % 
-% {'ShangSan'}; %: ÉÏÈý¹àÇø
+% {'ShangSan'}; %: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 % 
-% {'XiJun';} %: Î÷¿£¹àÇø
+% {'XiJun';} %: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 % 
-% {'XinBa';} %: ÐÂ°Ó¹àÇø
+% {'XinBa';} %: ï¿½Â°Ó¹ï¿½ï¿½ï¿½
 % 
-% {'YaNuan'} ; %: Ñ¼Å¯¹àÇø
+% {'YaNuan'} ; %: Ñ¼Å¯ï¿½ï¿½ï¿½ï¿½
 % 
-% {'YingKe'}; %: Ó¯¿Æ¹àÇø
+% {'YingKe'}; %: Ó¯ï¿½Æ¹ï¿½ï¿½ï¿½
 % 
-% {'YouLian'}; %: ÓÑÁª¹àÇø
+% {'YouLian'}; %: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 % ];
 % Soil = [{'T1'};{'T2'};{'T3'};{'T4'}];
 % Crop = [{'Maize'};{'Wheat'};{'Others'}];
@@ -132,7 +132,7 @@ for i = 1: 142
         case 1
             S.Constraint.Imax = 225;
             S.Constraint.Imin = 112;
-        case lower('Wheat')
+        case 2
             S.Constraint.Imax = 150;
             S.Constraint.Imin = 62;
         case 3
@@ -140,9 +140,9 @@ for i = 1: 142
             S.Constraint.Imin =125;
     end 
     
-    S.Management = zeros(2,4);
-    
-    
+    S.Management.Schedule = zeros(3,4);
+    S.Management.ys = ;
+    S.Management.yg = ;
     
     eval(['Data.',char(District{j}),'.', char(CropSpeices{crop}),'.'...
         ,char(SoilType{l}),'=S;']);
@@ -150,6 +150,8 @@ end
 Data.District = District;
 Data.Crop = CropSpeices;
 Data.Soil = SoilType; 
+Data.Constraint.Qs = ;
+Data.Constraint.Qg = ;
 
 Data = WeatherProcess(Data, PRE, ETo);
 Data = ConstraintProcess(Data,)

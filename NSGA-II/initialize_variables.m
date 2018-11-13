@@ -1,4 +1,4 @@
-function f = initialize_variables(N, M, V, Constraints)
+function f = initialize_variables(N, M, V, Data)
 
 %% function f = initialize_variables(N, M, V, min_range, max_range) 
 % This function initializes the chromosomes. Each chromosome has the
@@ -80,5 +80,5 @@ for i = 1 : N
     % processed and returns the value for the objective functions. These
     % values are now stored at the end of the chromosome itself.
 
-    f(i,V + 1: K) = evaluate_objective(f(i,:), M, V, Cosntraints);
+    f(i,V + 1: K) = evaluate_objective(f(i,:), M, V, Data);
 end

@@ -38,10 +38,13 @@ number_of_objectives = 2;
 District = Data.District;
 Crop=Data.Crop;
 Soil=Data.Soil;
-number_of_decision_variable = 142 * 8;
+number_of_decision_variable = 142 * 12;
 
 min_range_of_decision_variable = zeros(1, number_of_decision_variable);
 max_range_of_decision_variable = zeros(1, number_of_decision_variable);
+
+Qs = Data.Constraint.QsMax;
+Qg = Data.Constraint.QgMax;
 
 Index = 1;
 for d = 1: length(District)
@@ -56,11 +59,16 @@ for d = 1: length(District)
        
                         for i = 1 : 4
                             
-                            min_range_of_decision_variable(8 * (Index - 1) + 2 * (i - 1) + 1) = S.Constraint.tmin;
-                            min_range_of_decision_variable(8 * (Index - 1) + 2 * (i - 1) + 2) = S.Constraint.Imin;
+                            min_range_of_decision_variable(12 * (Index - 1) + 3 * (i - 1) + 1) = S.Constraint.tmin;
+                            min_range_of_decision_variable(12 * (Index - 1) + 3 * (i - 1) + 2) = S.Constraint.Imin * Qs / (Qs + Qg);
+                            min_range_of_decision_variable(12 * (Index - 1) + 3 * (i - 1) + 3) = S.Constraint.Imin * Qg / (Qs + Qg);
+
+
                                 
-                            max_range_of_decision_variable(8 * (Index - 1) + 2 * (i - 1) + 1) = S.Constraint.tmax;
-                            max_range_of_decision_variable(8 * (Index - 1) + 2 * (i - 1) + 2) = S.Constraint.Imax;
+                            max_range_of_decision_variable(12 * (Index - 1) + 3 * (i - 1) + 1) = S.Constraint.tmax;
+                            max_range_of_decision_variable(12 * (Index - 1) + 3 * (i - 1) + 2) = S.Constraint.Imax * Qg / (Qs + Qg);
+                            max_range_of_decision_variable(12 * (Index - 1) + 3 * (i - 1) + 3) = S.Constraint.Imin * Qg / (Qs + Qg);
+
                         end 
                         Index = Index + 1;
                     end 
