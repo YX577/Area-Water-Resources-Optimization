@@ -3,7 +3,7 @@ function [Anwsers,Monitor,Input] = Process(Parameter,Climate,Management,Initial)
 Days = length(Climate.ETo);
 Current = Initial;
 irr = 1;
-num = length(Management);
+[~, num] = size(Management);
 Anwsers = zeros(Days,3);
 Monitor = zeros(Days,3);
 Input = zeros(Days,2);
@@ -16,6 +16,7 @@ for d = 1 : Days
     if irr <= num
         if d == Management(1, irr)
             Irr = Management(2, irr);
+            irr = irr + 1;
         end
     end
 
@@ -27,6 +28,7 @@ for d = 1 : Days
     Anwsers(d,3) = Current.WaterTable;
     
     Input(d,1) = Climate.P(d);
+    Input(d, 2) = Irr;
 
     [Current,Inter] = NextState(parameter,Current,ETo,P,Irr);
         

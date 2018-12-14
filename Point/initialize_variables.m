@@ -1,4 +1,4 @@
-function f = initialize_variables(N, M, V, min_range, max_range)
+function f = initialize_variables(N, M, V, min_range, max_range, Data)
 
 %% function f = initialize_variables(N, M, V, min_tange, max_range) 
 % This function initializes the chromosomes. Each chromosome has the
@@ -57,7 +57,7 @@ for i = 1 : N
     % number is picked between the minimum and maximum possible values for
     % the each decision variable.
     for j = 1 : V
-        f(i,j) = min(j) + (max(j) - min(j))*rand(1);
+        f(i,j) = min(j) + randi(max(j) - min(j));
     end
     % For ease of computation and handling data the chromosome also has the
     % vlaue of the objective function concatenated at the end. The elements
@@ -67,5 +67,5 @@ for i = 1 : N
     % with information about the number of objective functions which are
     % processed and returns the value for the objective functions. These
     % values are now stored at the end of the chromosome itself.
-    f(i,V + 1: K) = evaluate_objective(f(i,:), M, V);
+    f(i,V + 1: K) = evaluate_objective(f(i,:), M, V, Data);
 end

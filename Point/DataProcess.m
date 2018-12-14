@@ -1,5 +1,6 @@
-function Data = DataProcess(Soil, Crop, Data)
-Data.Parameter.cropparameter.Kc = Crop.Kc;
-Data.Parameter.cropparameter.Yield = Crop.Yield;    
+function Data = DataProcess(Soil, Crop, Constraints, Initial, Data)
+Data.Parameter.cropparameter = Crop;    
 Data.Parameter.soilparameter = Soil;
+Data.Constraints = Constraints;
+Data.Initial = Initial;
 end

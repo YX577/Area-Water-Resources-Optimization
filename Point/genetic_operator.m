@@ -1,4 +1,4 @@
-function f  = genetic_operator(parent_chromosome, M, V, mu, mum, l_limit, u_limit)
+function f  = genetic_operator(parent_chromosome, M, V, mu, mum, l_limit, u_limit, Data)
 
 %% function f  = genetic_operator(parent_chromosome, M, V, mu, mum, l_limit, u_limit)
 % 
@@ -92,10 +92,10 @@ for i = 1 : N
             end
             % Generate the jth element of first child
             child_1(j) = ...
-                0.5*(((1 + bq(j))*parent_1(j)) + (1 - bq(j))*parent_2(j));
+                floor(0.5*(((1 + bq(j))*parent_1(j)) + (1 - bq(j))*parent_2(j)));
             % Generate the jth element of second child
             child_2(j) = ...
-                0.5*(((1 - bq(j))*parent_1(j)) + (1 + bq(j))*parent_2(j));
+                floor(0.5*(((1 - bq(j))*parent_1(j)) + (1 + bq(j))*parent_2(j)));
             % Make sure that the generated element is within the specified
             % decision space else set it to the appropriate extrema.
             if child_1(j) > u_limit(j)
@@ -111,8 +111,8 @@ for i = 1 : N
         end
         % Evaluate the objective function for the offsprings and as before
         % concatenate the offspring chromosome with objective value.
-        child_1(:,V + 1: M + V) = evaluate_objective(child_1, M, V);
-        child_2(:,V + 1: M + V) = evaluate_objective(child_2, M, V);
+        child_1(:,V + 1: M + V) = evaluate_objective(child_1, M, V, Data);
+        child_2(:,V + 1: M + V) = evaluate_objective(child_2, M, V, Data);
         % Set the crossover flag. When crossover is performed two children
         % are generate, while when mutation is performed only only child is
         % generated.
@@ -137,7 +137,7 @@ for i = 1 : N
                delta(j) = 1 - (2*(1 - r(j)))^(1/(mum+1));
            end
            % Generate the corresponding child element.
-           child_3(j) = child_3(j) + delta(j);
+           child_3(j) = floor(child_3(j) + delta(j));
            % Make sure that the generated element is within the decision
            % space.
            if child_3(j) > u_limit(j)
@@ -148,7 +148,7 @@ for i = 1 : N
         end
         % Evaluate the objective function for the offspring and as before
         % concatenate the offspring chromosome with objective value.    
-        child_3(:,V + 1: M + V) = evaluate_objective(child_3, M, V);
+        child_3(:,V + 1: M + V) = evaluate_objective(child_3, M, V, Data);
         % Set the mutation flag
         was_mutation = 1;
         was_crossover = 0;
