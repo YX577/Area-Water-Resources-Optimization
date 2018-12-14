@@ -1,51 +1,7 @@
 function f  = genetic_operator(parent_chromosome, M, V, mu, mum, l_limit, u_limit)
 
-%% function f  = genetic_operator(parent_chromosome, M, V, mu, mum, l_limit, u_limit)
-% 
-% This function is utilized to produce offsprings from parent chromosomes.
-% The genetic operators corssover and mutation which are carried out with
-% slight modifications from the original design. For more information read
-% the document enclosed. 
-%
-% parent_chromosome - the set of selected chromosomes.
-% M - number of objective functions
-% V - number of decision varaiables
-% mu - distribution index for crossover (read the enlcosed pdf file)
-% mum - distribution index for mutation (read the enclosed pdf file)
-% l_limit - a vector of lower limit for the corresponding decsion variables
-% u_limit - a vector of upper limit for the corresponding decsion variables
-%
-% The genetic operation is performed only on the decision variables, that
-% is the first V elements in the chromosome vector. 
+[N,~] = size(parent_chromosome);
 
-%  Copyright (c) 2009, Aravind Seshadri
-%  All rights reserved.
-%
-%  Redistribution and use in source and binary forms, with or without 
-%  modification, are permitted provided that the following conditions are 
-%  met:
-%
-%     * Redistributions of source code must retain the above copyright 
-%       notice, this list of conditions and the following disclaimer.
-%     * Redistributions in binary form must reproduce the above copyright 
-%       notice, this list of conditions and the following disclaimer in 
-%       the documentation and/or other materials provided with the distribution
-%      
-%  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-%  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-%  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
-%  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
-%  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
-%  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
-%  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
-%  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
-%  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-%  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-%  POSSIBILITY OF SUCH DAMAGE.
-
-[N,m] = size(parent_chromosome);
-
-clear m
 p = 1;
 % Flags used to set if crossover and mutation were actually performed. 
 was_crossover = 0;
