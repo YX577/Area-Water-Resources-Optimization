@@ -7,11 +7,11 @@ for i = 1 : 4
 end
 
 Para.Management = Schedule; 
-[SWC, ETa, ~, ~, P, I, Yield] = Conceptmodel(Para);
-dW = SWC(end) - SWC(1);
-ETa = sum(ETa);
+[~, ETa, ~, ~, ~, ~, Yield] = Conceptmodel(Para);
+%dW = SWC(end) - SWC(1);
+%ETa = sum(ETa);
 
-WUE = -ETa / (P + I + dW * 1000);
+WUE = ETa;
 Yield = -Yield;
 
 end 

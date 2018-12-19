@@ -1,5 +1,14 @@
 % This is the most out layer loop
-Schedules = zeros(50, 12, 9);
+pop = 20;
+gen = 20;
+t = 0;
+
+
+Schedules = zeros(pop, 12, 9);
+Iterms = zeros(pop, 6, 9);
+
+% iterms = [dW,ETa,Qdrainage,Qsupply,P,I]
+
 Data = struct();
 
 load PRE;
@@ -12,7 +21,7 @@ load Soil;
 load IMAX;
 load ZhangYe;
 
-t = 0;
+for t = 0 : 5
 %t = 0 ±íÊ¾2001Äê
 pre = PRE{end - 15 + t};
 pre(find(isnan(pre))) = 0;
@@ -31,7 +40,7 @@ soil = struct();
 crop = struct();
 constraints = struct();
 Data.Parameter.timeparameter.dt = 1;
-
+INDEX = 1;
 for i = 1 : 3
     for j = 1: 3
         switch i
@@ -64,20 +73,19 @@ for i = 1 : 3
     
         Data = DataProcess(soil, crop, constraints, initial, Data);
     
-        Schedule = nsga_2(Data, 50, 50);
-        Schedules(:, :, i) = Schedule;
+        Schedule = nsga_2(Data, pop, gen);
+        Schedules(:, :, INDEX) = Schedule;
+        
+        for k = 1 : pop
+            iterms = ItermsCal(Schedule(k, :), Data);
+            Iterms(k,:,INDEX) = iterms;
+        end
+        
+        INDEX = INDEX+ 1;
     end
 end
 
-for i = 1 : 9
-    figure(i);
-    plot(-Scheudules(:, 9, i), -Schedules(:, 10, i),'x');
+Name = ['Year', num2str(2016 - 15 + t),'.mat'];
+save(Name, 'Schedules', 'Iterms');
+
 end
-
-    
-
-
-
-
-
-

@@ -15,6 +15,6 @@ P=sum(Input(:,1));
 I=sum(Input(:,2));
 
 SWC=Anwsers(:,1);
-Yield = polyval(Par.cropparameter.Yield,I) /1000;% unit t/ha
+Yield = polyval(Par.cropparameter.Yield,ETa) /1000;% unit t/ha
 
 end
